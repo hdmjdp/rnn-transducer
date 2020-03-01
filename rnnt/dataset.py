@@ -75,14 +75,14 @@ class Dataset:
         return np.divide(np.subtract(mat, mean), np.sqrt(variance))
 
     def concat_frame(self, features):
-        time_steps, features_dim = features.shape
+        time_steps, features_dim = features.shape  # T*80
         concated_features = np.zeros(
             shape=[time_steps, features_dim *
                    (1 + self.left_context_width + self.right_context_width)],
             dtype=np.float32)
         # middle part is just the uttarnce
         concated_features[:, self.left_context_width * features_dim:
-                          (self.left_context_width + 1) * features_dim] = features
+                          (self.left_context_width + 1) * features_dim] = features  # 在特征维度序列上进行增加前几帧的特征
 
         for i in range(self.left_context_width):
             # add left context
@@ -102,7 +102,7 @@ class Dataset:
         if self.frame_rate != 10:
             interval = int(self.frame_rate / 10)
             temp_mat = [features[i]
-                        for i in range(0, features.shape[0], interval)]
+                        for i in range(0, features.shape[0], interval)]  # 下采样的时候对时间维度进行下采样而不是特征维度
             subsampled_features = np.row_stack(temp_mat)
             return subsampled_features
         else:
