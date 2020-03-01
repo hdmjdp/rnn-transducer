@@ -40,3 +40,6 @@ All experiments are conducted on AISHELL-1. During decoding, we use beam search 
 
 ## Acknowledge
 Thanks to [warp-transducer](https://github.com/HawkAaron/warp-transducer).
+
+
+fbank特征需要进行concat前几帧，然后再下采样
